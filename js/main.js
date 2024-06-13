@@ -30,9 +30,32 @@ scene.add(sunLight);
 
 let geometry = new THREE.BoxGeometry(1, 1, 1);
 let material = new THREE.MeshBasicMaterial({color: 0xff000});
-let mesh = new THREE.Mesh(geometry, material);
+let cube = new THREE.Mesh(geometry, material);
 
-scene.add(mesh);
+scene.add(cube);
 
-//Render
-renderer.render(scene, camera); 
+//Controlls
+document.addEventListener('keydown', onkeydown, false);
+
+function onkeydown(e){
+    let keycode = e.which;
+    if(keycode == 39){
+        camera.translateX(-0.05);
+    }else if(keycode == 37){
+        camera.translateX(0.05);
+    }else if(keycode == 38){
+        camera.translateY(-0.05);
+    }else if(keycode == 40){
+        camera.translateY(0.05);
+    }
+}
+
+let renderLoop = function(){
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera); 
+    requestAnimationFrame(renderLoop);
+}
+
+renderLoop();
+
